@@ -1,0 +1,60 @@
+﻿@page "/admin/manage-blog-posts"
+
+@rendermode InteractiveServer
+
+<PageTitle>@Utils.GetPageTitle("Manage Blog Posts")</PageTitle>
+
+<AdminHeader Title="Manage Blog Posts">
+    <ActionButtons>
+        <a href="admin/manage-blog-posts/new" class="btn btn-primary btn-sm" data-enhance-nav="false">+ Add new Blog Post</a>
+    </ActionButtons>
+</AdminHeader>
+
+<ConfirmationModal Title="Confirm Delete"
+                   Message="Are you sure you want to delete this blog post?"
+                   IsVisible="@_showConfirmationModal"
+                   ConfirmationChanged="OnModalConfirm" />
+
+
+@if (_isLoading)
+{
+    <Loader LoaderText="@_loadingText" />
+}
+
+<QuickGrid ItemsProvider="_blogPostProvider" Pagination="_paginationState" class="table table-bordered table-striped table-hover">
+    <PropertyColumn Property="@(b => b.Id)" Align="Align.Center" />
+    <TemplateColumn Title="Blog post" Align="Align.Center">
+        <div class="py-2" style="display: grid; grid-template-columns: 60px auto; grid-column-gap: 10px;">
+            <img src="@context.Image" style="height: 60px; width: 60px; object-fit: cover" />
+            <div>
+                <label class="mb-0 d-block">@context.Title</label>
+                @if (context.IsPublished)
+                {
+                    <a href="posts/@context.Slug" target="_blank">@context.Slug</a>
+                }
+                else
+                {
+                    <label>@context.Slug</label>
+                }
+            </div>
+        </div>
+    </TemplateColumn>
+    <PropertyColumn Property="@(b => b.Category.Name)" Title="Category" Align="Align.Center" />
+    <TemplateColumn Title="Featured" Align="Align.Center">
+        <label class="switch">
+            <input type="checkbox" @bind="context.IsFeatured" @bind:after="(() => HandleFeaturedChanged(context))" />
+            <span class="switch-slider"></span>
+        </label>
+    </TemplateColumn>
+    <TemplateColumn Title="Published" Align="Align.Center">
+        <label class="switch">
+            <input type="checkbox" @bind="context.IsPublished" @bind:after="(() => HandlePublishedChanged(context))" />
+            <span class="switch-slider"></span>
+        </label>
+    </TemplateColumn>
+    <TemplateColumn Title="Actions" Align="Align.Center">
+        <a href="admin/manage-blog-posts/edit/@context.Id" data-enhance-nav="false" class="btn btn-primary btn-sm admin-button mr-1" style="width: 80px;">Edit</a>
+        <button class="btn btn-danger btn-sm admin-button" Type="submit" style="width: 80px;" @onclick="()=>ConfirmDeleteBlogPost(context)">Delete</button>
+    </TemplateColumn>
+</QuickGrid>
+<Paginator State="_paginationState" />

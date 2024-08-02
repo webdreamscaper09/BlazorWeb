@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-BlazorBlog-97df3ada-9861-4eda-a96d-d0c2e13d1b2e</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazored.TextEditor" Version="1.1.0" />
+    <PackageReference Include="HtmlSanitizer" Version="8.1.812-beta" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlazorBlog.Data\BlazorBlog.Data.csproj" />
+    <ProjectReference Include="..\BlazorBlog.Services\BlazorBlog.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\posts\" />
+  </ItemGroup>
+
+</Project>
